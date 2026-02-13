@@ -710,12 +710,22 @@ class UIManager {
   /**
    * Coleta dados do formulário
    */
+  /**
+   * Coleta dados do formulário
+   */
   coletarDadosFormulario(tipo) {
     const dados = {};
     const campos = ['nome', 'cep', 'endereco', 'numero', 'bairro', 'complemento', 'cidade', 'uf'];
     
     campos.forEach(campo => {
-      const input = document.getElementById(`${tipo}${campo.charAt(0).toUpperCase() + campo.slice(1)}`);
+      // Cria o sufixo com a primeira letra maiúscula
+      let sufixo = campo.charAt(0).toUpperCase() + campo.slice(1);
+      
+      // Trata as exceções para que o JS busque os IDs exatos do HTML
+      if (campo === 'cep') sufixo = 'CEP';
+      if (campo === 'uf') sufixo = 'UF';
+      
+      const input = document.getElementById(`${tipo}${sufixo}`);
       dados[campo] = input ? input.value.trim() : '';
     });
     
